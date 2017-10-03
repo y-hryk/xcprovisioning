@@ -1,6 +1,4 @@
-require 'xcprovisioning'
 require 'thor'
-require 'terminal-table'
 
 module Xcprovisioning
   class Command < Thor
@@ -11,14 +9,7 @@ module Xcprovisioning
       # fetch provisioning profile list
       mobileDevice = MobileDevice.new()
       provisiong = mobileDevice.provisionings()
-
-      # current provisioning profile
-      current_rows = []
-      provisiong.each { |profile|  
-        current_rows << [ profile.name, profile.application_identifier, profile.team_name, profile.expiration_date]
-      }
-      current_table = Terminal::Table.new :title => "Provisioning Profile", :headings => ['name', 'application_identifier', 'team_name','expiration_date'], :rows => current_rows
-      puts current_table
+      puts Reporter.provisioning_report(provisiong)
 
     end
 
@@ -29,14 +20,10 @@ module Xcprovisioning
       mobileDevice = MobileDevice.new()
       remove_profiles = mobileDevice.deletion_targets()
 
-      remove_rows = []
-      remove_profiles.each { |profile|  
-        remove_rows << [ profile.name, profile.application_identifier, profile.team_name, profile.expiration_date]
-      }
-      remove_table = Terminal::Table.new :title => "Duplicate Provisioning Profile", :headings => ['name', 'application_identifier', 'team_name','expiration_date'], :rows => remove_rows
-
-      if !remove_rows.empty?
-        puts remove_table
+      report = Reporter.provisioning_report(remove_profiles)
+   
+      if !remove_profiles.empty?
+        puts report
         while true
             print "delete duplicate provisioning profiles?[y/n]:"
 	        response = STDIN.gets.chomp
