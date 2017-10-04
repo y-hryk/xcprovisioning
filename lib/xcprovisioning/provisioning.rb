@@ -5,7 +5,7 @@ module Xcprovisioning
 		attr_accessor :path, :name, :creation_date, :provisioning_path, :application_identifier, :team_name, :uuid , :file_name, :expiration_date
 
 		def initialize(path)
-			profile = %x{ security cms -D -i #{path} }
+			profile = %x{ security cms -D -i #{path} 2> /dev/null}
 			profile_hash = Plist::parse_xml(profile)
 			@path = path
 			@name = profile_hash['Name']

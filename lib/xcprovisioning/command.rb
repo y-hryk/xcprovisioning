@@ -19,13 +19,12 @@ module Xcprovisioning
       # fetch provisioning profile list
       mobileDevice = MobileDevice.new()
       remove_profiles = mobileDevice.deletion_targets()
-
-      report = Reporter.provisioning_report(remove_profiles)
+      report = Reporter.provisioning_report(remove_profiles, "duplicate or expired provisioning profiles")
    
       if !remove_profiles.empty?
         puts report
         while true
-            print "delete duplicate provisioning profiles?[y/n]:"
+            print "delete duplicate or expired provisioning profiles?[y/n]:"
 	        response = STDIN.gets.chomp
 	        case response
 	        when /^[yY]/
@@ -39,7 +38,7 @@ module Xcprovisioning
 	        end
         end
 	  else
-	  	puts 'Duplicate provisioning profile was not found.'
+	  	puts 'duplicate or expired provisioning profile was not found.'
       end
 
     end

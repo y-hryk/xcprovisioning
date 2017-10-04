@@ -42,7 +42,6 @@ module Xcprovisioning
              val.each { |profile|  
                if profile.name == recent_profile.name
                  remove_profiles << profile
-                 remove_profiles << profile
                end
              }
           end
