@@ -28,5 +28,3 @@ Gem::Specification.new do |spec|
   spec.add_dependency "plist"
 
 end
-
-curl -u y-hryk https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
